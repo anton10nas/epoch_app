@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  epochapp:
+    container_name: epoch_test
+    image: epoch_test
+    build: .
+    ports:
+      - "8888:8888"
+    environment:
+      - DATABASE_URL=postgresql://postgres:admin123@db:5432/postgres
+    depends_on:
+      - db
+
+  db:
+    container_name: db
+    image: postgres:12
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=admin123
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+
+volumes:
+  pgdata: {}
